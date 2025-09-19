@@ -1,37 +1,31 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import HeaderNav from '@/components/HeaderNav.vue'
+import FooterBar from '@/components/FooterBar.vue'
+import HomeView from '@/views/HomeView.vue'
+import LayananHub from '@/views/LayananHub.vue'
+import LibraryView from '@/views/LibraryView.vue'
+import KonsultasiView from '@/views/KonsultasiView.vue'
+import RekomendasiView from '@/views/RekomendasiView.vue'
+import AdminView from '@/views/AdminView.vue'
+import { route, go } from '@/router'
+</script>
 
 <template>
-  <div
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200"
-  >
-    <div class="text-center">
-      <!-- TODO: replace everything here with the actual app! -->
-      <h1 class="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-        <svg class="animate-spin h-8 w-8 text-slate-400" viewBox="0 0 50 50">
-          <circle
-            class="opacity-30"
-            cx="25"
-            cy="25"
-            r="20"
-            stroke="currentColor"
-            stroke-width="5"
-            fill="none"
-          />
-          <circle
-            class="text-slate-600"
-            cx="25"
-            cy="25"
-            r="20"
-            stroke="currentColor"
-            stroke-width="5"
-            fill="none"
-            stroke-dasharray="100"
-            stroke-dashoffset="75"
-          />
-        </svg>
-        Generating your app...
-      </h1>
-    </div>
+  <div class="min-h-svh bg-slate-50 text-slate-800">
+    <HeaderNav @openGuest="go('layanan')" @openAdmin="go('admin')" />
+
+    <main>
+      <component :is="
+        route === 'home' ? HomeView :
+        route === 'layanan' ? LayananHub :
+        route === 'layanan/perpustakaan' ? LibraryView :
+        route === 'layanan/konsultasi' ? KonsultasiView :
+        route === 'layanan/rekomendasi' ? RekomendasiView :
+        AdminView
+      " @go="go" />
+    </main>
+
+    <FooterBar />
   </div>
 </template>
 
