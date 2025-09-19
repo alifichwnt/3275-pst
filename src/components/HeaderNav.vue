@@ -1,8 +1,12 @@
 <template>
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/80 border-b border-slate-200">
+  <header
+    class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/80 border-b border-slate-200"
+  >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-md bg-primary text-white grid place-items-center font-bold">PST</div>
+        <div class="h-10 w-10 rounded-md bg-primary text-white grid place-items-center font-bold">
+          PST
+        </div>
         <div>
           <h1 class="text-slate-900 font-semibold leading-tight">Pelayanan Statistik Terpadu</h1>
           <p class="text-xs text-slate-500 -mt-0.5">BPS Kota Bekasi</p>
@@ -10,12 +14,16 @@
       </div>
       <nav class="hidden md:flex items-center gap-6 text-sm">
         <a href="#/home" @click.prevent="goRoute('home')" :class="linkClass('home')">Beranda</a>
-        <a href="#/layanan" @click.prevent="goRoute('layanan')" :class="linkClass('layanan')">Layanan</a>
+        <a href="#/layanan" @click.prevent="goRoute('layanan')" :class="linkClass('layanan')"
+          >Layanan</a
+        >
         <a href="#/admin" @click.prevent="goRoute('admin')" :class="linkClass('admin')">Admin</a>
       </nav>
       <div class="flex items-center gap-2">
         <template v-if="authUser">
-          <span class="text-xs text-slate-600 hidden sm:inline">{{ authUser.name }} • {{ authUser.role }}</span>
+          <span class="text-xs text-slate-600 hidden sm:inline"
+            >{{ authUser.name }} • {{ authUser.role }}</span
+          >
           <button class="btn-secondary" @click="onLogout">Keluar</button>
         </template>
         <template v-else>

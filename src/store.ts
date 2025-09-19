@@ -73,9 +73,24 @@ function loadState(): State {
   const initial: State = {
     authUser: null,
     publications: [
-      { id: uid('pub_'), title: 'Statistik Daerah Kota Bekasi 2024', category: 'Publikasi', year: 2024 },
-      { id: uid('pub_'), title: 'Produk Domestik Regional Bruto (PDRB) Kota Bekasi 2023', category: 'Tabel Data', year: 2023 },
-      { id: uid('pub_'), title: 'Indeks Pembangunan Manusia Kota Bekasi 2022', category: 'Publikasi', year: 2022 },
+      {
+        id: uid('pub_'),
+        title: 'Statistik Daerah Kota Bekasi 2024',
+        category: 'Publikasi',
+        year: 2024,
+      },
+      {
+        id: uid('pub_'),
+        title: 'Produk Domestik Regional Bruto (PDRB) Kota Bekasi 2023',
+        category: 'Tabel Data',
+        year: 2023,
+      },
+      {
+        id: uid('pub_'),
+        title: 'Indeks Pembangunan Manusia Kota Bekasi 2022',
+        category: 'Publikasi',
+        year: 2022,
+      },
     ],
     consultations: [],
     recommendations: [],
@@ -89,7 +104,7 @@ export const state = reactive<State>(loadState())
 watch(
   () => state,
   () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state)),
-  { deep: true }
+  { deep: true },
 )
 
 export function guestLogin(name: string, email: string): User {
@@ -101,7 +116,12 @@ export function guestLogin(name: string, email: string): User {
 export function adminLogin(username: string, password: string): boolean {
   // Simple mock auth: change credentials here if needed
   if (username === 'bpsbekasi' && password === 'admin123') {
-    state.authUser = { id: uid('adm_'), name: 'Admin BPS', email: 'admin@bps.bekasi', role: 'admin' }
+    state.authUser = {
+      id: uid('adm_'),
+      name: 'Admin BPS',
+      email: 'admin@bps.bekasi',
+      role: 'admin',
+    }
     return true
   }
   return false
@@ -149,7 +169,10 @@ export function addRating(rt: Omit<Rating, 'id' | 'createdAt'>) {
 export function exportCSV(filename: string, rows: Record<string, unknown>[]) {
   if (!rows.length) return
   const headers = Object.keys(rows[0])
-  const csv = [headers.join(','), ...rows.map((r) => headers.map((h) => JSON.stringify((r as any)[h] ?? '')).join(','))].join('\n')
+  const csv = [
+    headers.join(','),
+    ...rows.map((r) => headers.map((h) => JSON.stringify((r as any)[h] ?? '')).join(',')),
+  ].join('\n')
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)

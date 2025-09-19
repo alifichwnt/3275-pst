@@ -1,7 +1,9 @@
 <template>
   <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
     <h2 class="text-2xl font-bold text-slate-900">Konsultasi Statistik</h2>
-    <p class="text-slate-600">Ajukan pertanyaan atau konsultasi terkait data dan analisis statistik.</p>
+    <p class="text-slate-600">
+      Ajukan pertanyaan atau konsultasi terkait data dan analisis statistik.
+    </p>
 
     <div class="mt-6 grid gap-6 md:grid-cols-[1.2fr_.8fr] items-start">
       <div class="rounded-xl border bg-white p-6 shadow-sm">
@@ -10,7 +12,11 @@
             <input v-model="form.name" required placeholder="Nama lengkap" class="ipt" />
             <input v-model="form.email" type="email" required placeholder="Email" class="ipt" />
             <input v-model="form.phone" placeholder="No. HP (opsional)" class="ipt md:col-span-2" />
-            <input v-model="form.institution" placeholder="Instansi/Organisasi (opsional)" class="ipt md:col-span-2" />
+            <input
+              v-model="form.institution"
+              placeholder="Instansi/Organisasi (opsional)"
+              class="ipt md:col-span-2"
+            />
           </div>
           <select v-model="topic" class="ipt">
             <option value="Publikasi">Publikasi</option>
@@ -18,10 +24,18 @@
             <option value="Data Series">Data Series</option>
             <option value="Lainnya">Lainnya</option>
           </select>
-          <textarea v-model="message" required rows="6" class="ipt" placeholder="Tuliskan pertanyaan atau kebutuhan konsultasi Anda..."></textarea>
+          <textarea
+            v-model="message"
+            required
+            rows="6"
+            class="ipt"
+            placeholder="Tuliskan pertanyaan atau kebutuhan konsultasi Anda..."
+          ></textarea>
           <div class="flex gap-2">
             <button class="btn-primary">Kirim Konsultasi</button>
-            <button type="button" class="btn-outline" @click="window.print()">Cetak / Simpan PDF</button>
+            <button type="button" class="btn-outline" @click="window.print()">
+              Cetak / Simpan PDF
+            </button>
           </div>
         </form>
 
@@ -53,7 +67,12 @@
 import { ref } from 'vue'
 import { addConsultation, addRating, respondConsultation, state } from '@/store'
 
-const form = ref({ name: state.authUser?.name || '', email: state.authUser?.email || '', phone: '', institution: '' })
+const form = ref({
+  name: state.authUser?.name || '',
+  email: state.authUser?.email || '',
+  phone: '',
+  institution: '',
+})
 const topic = ref('Publikasi')
 const message = ref('')
 const lastResponse = ref('')
@@ -62,7 +81,8 @@ function submit() {
   const rec = { user: form.value, topic: topic.value, message: message.value }
   addConsultation(rec)
   const id = state.consultations[state.consultations.length - 1]?.id
-  const auto = 'Terima kasih. Permintaan Anda telah diterima dan akan diproses maksimal 2 hari kerja.'
+  const auto =
+    'Terima kasih. Permintaan Anda telah diterima dan akan diproses maksimal 2 hari kerja.'
   respondConsultation(id, auto)
   lastResponse.value = auto
   message.value = ''
@@ -80,7 +100,13 @@ function rate() {
 </script>
 
 <style scoped>
-.ipt { @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary; }
-.btn-primary { @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700; }
-.btn-outline { @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50; }
+.ipt {
+  @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary;
+}
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700;
+}
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50;
+}
 </style>

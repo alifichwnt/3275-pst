@@ -1,7 +1,9 @@
 <template>
   <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
     <h2 class="text-2xl font-bold text-slate-900">Area Admin BPS</h2>
-    <p class="text-slate-600">Kelola publikasi/tabel data, tanggapi konsultasi & rekomendasi, serta ekspor penilaian.</p>
+    <p class="text-slate-600">
+      Kelola publikasi/tabel data, tanggapi konsultasi & rekomendasi, serta ekspor penilaian.
+    </p>
 
     <div v-if="!isAdmin" class="mt-6 rounded-xl border bg-white p-6 shadow-sm max-w-md">
       <h3 class="font-semibold text-slate-900">Login BPS</h3>
@@ -10,18 +12,44 @@
         <input v-model="password" type="password" placeholder="Password" class="ipt" />
         <button class="btn-primary">Masuk</button>
       </form>
-      <p class="text-xs text-slate-500 mt-2">Gunakan kredensial yang telah ditentukan oleh administrator.</p>
+      <p class="text-xs text-slate-500 mt-2">
+        Gunakan kredensial yang telah ditentukan oleh administrator.
+      </p>
     </div>
 
     <div v-else class="mt-6">
       <div class="flex flex-wrap gap-2">
-        <button class="tab" :class="{ 'tab-active': tab==='publikasi' }" @click="tab='publikasi'">Publikasi & Tabel</button>
-        <button class="tab" :class="{ 'tab-active': tab==='konsultasi' }" @click="tab='konsultasi'">Konsultasi</button>
-        <button class="tab" :class="{ 'tab-active': tab==='rekomendasi' }" @click="tab='rekomendasi'">Rekomendasi</button>
-        <button class="tab" :class="{ 'tab-active': tab==='penilaian' }" @click="tab='penilaian'">Penilaian</button>
+        <button
+          class="tab"
+          :class="{ 'tab-active': tab === 'publikasi' }"
+          @click="tab = 'publikasi'"
+        >
+          Publikasi & Tabel
+        </button>
+        <button
+          class="tab"
+          :class="{ 'tab-active': tab === 'konsultasi' }"
+          @click="tab = 'konsultasi'"
+        >
+          Konsultasi
+        </button>
+        <button
+          class="tab"
+          :class="{ 'tab-active': tab === 'rekomendasi' }"
+          @click="tab = 'rekomendasi'"
+        >
+          Rekomendasi
+        </button>
+        <button
+          class="tab"
+          :class="{ 'tab-active': tab === 'penilaian' }"
+          @click="tab = 'penilaian'"
+        >
+          Penilaian
+        </button>
       </div>
 
-      <div v-if="tab==='publikasi'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
+      <div v-if="tab === 'publikasi'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
         <h3 class="font-semibold text-slate-900">Kelola Publikasi/Tabel</h3>
         <form @submit.prevent="addOrUpdate" class="mt-3 grid gap-3 md:grid-cols-4">
           <input v-model="form.title" required placeholder="Judul" class="ipt md:col-span-2" />
@@ -30,7 +58,9 @@
             <option>Tabel Data</option>
           </select>
           <input v-model.number="form.year" type="number" placeholder="Tahun" class="ipt" />
-          <button class="btn-primary md:col-span-4 md:w-max">{{ form.id? 'Simpan Perubahan' : 'Tambah' }}</button>
+          <button class="btn-primary md:col-span-4 md:w-max">
+            {{ form.id ? 'Simpan Perubahan' : 'Tambah' }}
+          </button>
         </form>
 
         <div class="mt-4 overflow-x-auto">
@@ -58,38 +88,59 @@
         </div>
       </div>
 
-      <div v-if="tab==='konsultasi'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
+      <div v-if="tab === 'konsultasi'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
         <h3 class="font-semibold text-slate-900">Tanggapi Konsultasi</h3>
         <div v-if="!consultations.length" class="text-sm text-slate-500">Belum ada konsultasi.</div>
         <div v-for="c in consultations" :key="c.id" class="mt-4 rounded-lg border p-4">
-          <div class="font-medium">{{ c.user.name }} • <span class="text-slate-500">{{ c.topic }}</span></div>
+          <div class="font-medium">
+            {{ c.user.name }} • <span class="text-slate-500">{{ c.topic }}</span>
+          </div>
           <p class="text-sm text-slate-700">{{ c.message }}</p>
           <div class="mt-2 grid gap-2">
-            <textarea v-model="responses[c.id]" class="ipt" placeholder="Tulis tanggapan..."></textarea>
+            <textarea
+              v-model="responses[c.id]"
+              class="ipt"
+              placeholder="Tulis tanggapan..."
+            ></textarea>
             <div class="flex gap-2">
               <button class="btn-primary" @click="sendResponse('k', c.id)">Kirim</button>
               <button type="button" class="btn-outline" @click="quick(c.id)">Jawab Cepat</button>
             </div>
           </div>
-          <div v-if="c.response" class="mt-2 text-sm text-emerald-700 bg-emerald-50 border rounded p-2">Terkirim: {{ c.response }}</div>
+          <div
+            v-if="c.response"
+            class="mt-2 text-sm text-emerald-700 bg-emerald-50 border rounded p-2"
+          >
+            Terkirim: {{ c.response }}
+          </div>
         </div>
       </div>
 
-      <div v-if="tab==='rekomendasi'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
+      <div v-if="tab === 'rekomendasi'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
         <h3 class="font-semibold text-slate-900">Tanggapi Rekomendasi</h3>
-        <div v-if="!recommendations.length" class="text-sm text-slate-500">Belum ada rekomendasi.</div>
+        <div v-if="!recommendations.length" class="text-sm text-slate-500">
+          Belum ada rekomendasi.
+        </div>
         <div v-for="r in recommendations" :key="r.id" class="mt-4 rounded-lg border p-4">
-          <div class="font-medium">{{ r.user.name }} • <span class="text-slate-500">{{ r.subject }}</span></div>
+          <div class="font-medium">
+            {{ r.user.name }} • <span class="text-slate-500">{{ r.subject }}</span>
+          </div>
           <p class="text-sm text-slate-700">{{ r.message }}</p>
           <div class="mt-2 grid gap-2">
-            <textarea v-model="responses[r.id]" class="ipt" placeholder="Tulis tanggapan..."></textarea>
+            <textarea
+              v-model="responses[r.id]"
+              class="ipt"
+              placeholder="Tulis tanggapan..."
+            ></textarea>
             <button class="btn-primary w-max" @click="sendResponse('r', r.id)">Kirim</button>
           </div>
-          <div v-if="r.response" class="mt-2 text-sm text-sky-700 bg-sky-50 border rounded p-2">Terkirim: {{ r.response }}</div>
+          <div v-if="r.response" class="mt-2 text-sm text-sky-700 bg-sky-50 border rounded p-2">
+            Terkirim: {{ r.response }}
+          </div>
         </div>
       </div>
 
-      <div v-if="tab==='penilaian'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
+      <div v-if="tab === 'penilaian'" class="mt-4 rounded-xl border bg-white p-6 shadow-sm">
         <h3 class="font-semibold text-slate-900">Rekap & Ekspor</h3>
         <div class="grid gap-3 md:grid-cols-3">
           <div class="rounded-lg border p-4">
@@ -106,8 +157,12 @@
           </div>
         </div>
         <div class="mt-4 flex flex-wrap gap-2">
-          <button class="btn-secondary" @click="exportConsultations">Export Konsultasi (CSV)</button>
-          <button class="btn-secondary" @click="exportRecommendations">Export Rekomendasi (CSV)</button>
+          <button class="btn-secondary" @click="exportConsultations">
+            Export Konsultasi (CSV)
+          </button>
+          <button class="btn-secondary" @click="exportRecommendations">
+            Export Rekomendasi (CSV)
+          </button>
           <button class="btn-secondary" @click="exportRatings">Export Penilaian (CSV)</button>
         </div>
       </div>
@@ -117,7 +172,16 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { adminLogin, exportCSV, removePublication, respondConsultation, respondRecommendation, state, addPublication, updatePublication } from '@/store'
+import {
+  adminLogin,
+  exportCSV,
+  removePublication,
+  respondConsultation,
+  respondRecommendation,
+  state,
+  addPublication,
+  updatePublication,
+} from '@/store'
 
 const isAdmin = computed(() => state.authUser?.role === 'admin')
 const username = ref('')
@@ -139,7 +203,12 @@ const form = reactive({ id: '', title: '', category: 'Publikasi', year: new Date
 function addOrUpdate() {
   if (!form.title) return
   if (form.id) {
-    updatePublication({ id: form.id, title: form.title, category: form.category, year: Number(form.year) })
+    updatePublication({
+      id: form.id,
+      title: form.title,
+      category: form.category,
+      year: Number(form.year),
+    })
   } else {
     addPublication({ title: form.title, category: form.category, year: Number(form.year) })
   }
@@ -166,22 +235,67 @@ function quick(id: string) {
 }
 
 function exportConsultations() {
-  exportCSV('konsultasi.csv', state.consultations.map(c => ({ id: c.id, tgl: c.createdAt, nama: c.user.name, email: c.user.email, topik: c.topic, pesan: c.message, tanggapan: c.response || '' })))
+  exportCSV(
+    'konsultasi.csv',
+    state.consultations.map((c) => ({
+      id: c.id,
+      tgl: c.createdAt,
+      nama: c.user.name,
+      email: c.user.email,
+      topik: c.topic,
+      pesan: c.message,
+      tanggapan: c.response || '',
+    })),
+  )
 }
 function exportRecommendations() {
-  exportCSV('rekomendasi.csv', state.recommendations.map(r => ({ id: r.id, tgl: r.createdAt, nama: r.user.name, email: r.user.email, subjek: r.subject, pesan: r.message, tanggapan: r.response || '' })))
+  exportCSV(
+    'rekomendasi.csv',
+    state.recommendations.map((r) => ({
+      id: r.id,
+      tgl: r.createdAt,
+      nama: r.user.name,
+      email: r.user.email,
+      subjek: r.subject,
+      pesan: r.message,
+      tanggapan: r.response || '',
+    })),
+  )
 }
 function exportRatings() {
-  exportCSV('penilaian.csv', state.ratings.map(x => ({ id: x.id, tgl: x.createdAt, layanan: x.serviceType, skor: x.score, komentar: x.comment || '' })))
+  exportCSV(
+    'penilaian.csv',
+    state.ratings.map((x) => ({
+      id: x.id,
+      tgl: x.createdAt,
+      layanan: x.serviceType,
+      skor: x.score,
+      komentar: x.comment || '',
+    })),
+  )
 }
 </script>
 
 <style scoped>
-.ipt { @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary; }
-.btn-primary { @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700; }
-.btn-secondary { @apply inline-flex items-center justify-center rounded-md bg-slate-900/80 px-4 py-2 text-white font-semibold hover:bg-slate-900; }
-.btn-outline { @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50; }
-.btn-danger { @apply inline-flex items-center justify-center rounded-md bg-rose-600 px-3 py-1.5 text-white hover:bg-rose-700; }
-.tab { @apply rounded-full border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50; }
-.tab-active { @apply border-primary text-primary bg-primary/10; }
+.ipt {
+  @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary;
+}
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700;
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-md bg-slate-900/80 px-4 py-2 text-white font-semibold hover:bg-slate-900;
+}
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50;
+}
+.btn-danger {
+  @apply inline-flex items-center justify-center rounded-md bg-rose-600 px-3 py-1.5 text-white hover:bg-rose-700;
+}
+.tab {
+  @apply rounded-full border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50;
+}
+.tab-active {
+  @apply border-primary text-primary bg-primary/10;
+}
 </style>

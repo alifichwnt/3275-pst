@@ -4,7 +4,9 @@
     <p class="text-slate-600">Akses publikasi dan tabel data BPS Kota Bekasi.</p>
 
     <div v-if="!isGuest" class="mt-6 rounded-xl border bg-amber-50 p-4">
-      <p class="text-sm text-amber-800">Anda belum masuk sebagai tamu. Silakan isi data diri singkat untuk melanjutkan.</p>
+      <p class="text-sm text-amber-800">
+        Anda belum masuk sebagai tamu. Silakan isi data diri singkat untuk melanjutkan.
+      </p>
       <form @submit.prevent="saveGuest" class="mt-3 grid gap-3 md:grid-cols-2">
         <input v-model="name" required placeholder="Nama lengkap" class="ipt" />
         <input v-model="email" type="email" required placeholder="Email" class="ipt" />
@@ -50,7 +52,9 @@
                 </tr>
               </tbody>
             </table>
-            <div v-if="!filtered.length" class="text-sm text-slate-500 py-6 text-center">Tidak ada data.</div>
+            <div v-if="!filtered.length" class="text-sm text-slate-500 py-6 text-center">
+              Tidak ada data.
+            </div>
           </div>
 
           <div class="mt-4 flex gap-2">
@@ -62,7 +66,9 @@
         <div class="print:block hidden mt-6">
           <h3 class="font-semibold text-slate-900">Daftar Terpilih</h3>
           <ul class="list-disc list-inside text-sm">
-            <li v-for="p in selected" :key="p.id">{{ p.title }} ({{ p.category }} • {{ p.year }})</li>
+            <li v-for="p in selected" :key="p.id">
+              {{ p.title }} ({{ p.category }} • {{ p.year }})
+            </li>
           </ul>
         </div>
       </div>
@@ -136,7 +142,10 @@ function remove(id: string) {
 }
 
 function onExportCSV() {
-  exportCSV('publikasi_terpilih.csv', selected.value.map((x) => ({ judul: x.title, kategori: x.category, tahun: x.year })))
+  exportCSV(
+    'publikasi_terpilih.csv',
+    selected.value.map((x) => ({ judul: x.title, kategori: x.category, tahun: x.year })),
+  )
 }
 
 const score = ref(5)
@@ -150,9 +159,21 @@ function rate() {
 </script>
 
 <style scoped>
-.ipt { @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary; }
-.btn-primary { @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700; }
-.btn-secondary { @apply inline-flex items-center justify-center rounded-md bg-slate-900/80 px-4 py-2 text-white font-semibold hover:bg-slate-900; }
-.btn-outline { @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50; }
-@media print { .print\:block { display: block !important; } }
+.ipt {
+  @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary;
+}
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700;
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-md bg-slate-900/80 px-4 py-2 text-white font-semibold hover:bg-slate-900;
+}
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50;
+}
+@media print {
+  .print\:block {
+    display: block !important;
+  }
+}
 </style>

@@ -12,10 +12,18 @@
             <input v-model="form.phone" placeholder="No. HP (opsional)" class="ipt md:col-span-2" />
           </div>
           <input v-model="subject" required placeholder="Judul/Topik Rekomendasi" class="ipt" />
-          <textarea v-model="message" required rows="6" class="ipt" placeholder="Tuliskan rekomendasi Anda..."></textarea>
+          <textarea
+            v-model="message"
+            required
+            rows="6"
+            class="ipt"
+            placeholder="Tuliskan rekomendasi Anda..."
+          ></textarea>
           <div class="flex gap-2">
             <button class="btn-primary">Kirim</button>
-            <button type="button" class="btn-outline" @click="window.print()">Cetak / Simpan PDF</button>
+            <button type="button" class="btn-outline" @click="window.print()">
+              Cetak / Simpan PDF
+            </button>
           </div>
         </form>
 
@@ -47,7 +55,11 @@
 import { ref } from 'vue'
 import { addRating, addRecommendation, respondRecommendation, state } from '@/store'
 
-const form = ref({ name: state.authUser?.name || '', email: state.authUser?.email || '', phone: '' })
+const form = ref({
+  name: state.authUser?.name || '',
+  email: state.authUser?.email || '',
+  phone: '',
+})
 const subject = ref('')
 const message = ref('')
 const lastResponse = ref('')
@@ -55,7 +67,8 @@ const lastResponse = ref('')
 function submit() {
   addRecommendation({ user: form.value as any, subject: subject.value, message: message.value })
   const id = state.recommendations[state.recommendations.length - 1]?.id
-  const auto = 'Terima kasih atas rekomendasi yang disampaikan. Kami akan menindaklanjuti secepatnya.'
+  const auto =
+    'Terima kasih atas rekomendasi yang disampaikan. Kami akan menindaklanjuti secepatnya.'
   respondRecommendation(id, auto)
   lastResponse.value = auto
   subject.value = ''
@@ -74,7 +87,13 @@ function rate() {
 </script>
 
 <style scoped>
-.ipt { @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary; }
-.btn-primary { @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700; }
-.btn-outline { @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50; }
+.ipt {
+  @apply w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary;
+}
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white font-semibold shadow hover:bg-primary-600 active:bg-primary-700;
+}
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-slate-700 hover:bg-slate-50;
+}
 </style>

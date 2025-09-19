@@ -15,14 +15,22 @@ import { route, go } from '@/router'
     <HeaderNav @openGuest="go('layanan')" @openAdmin="go('admin')" />
 
     <main>
-      <component :is="
-        route === 'home' ? HomeView :
-        route === 'layanan' ? LayananHub :
-        route === 'layanan/perpustakaan' ? LibraryView :
-        route === 'layanan/konsultasi' ? KonsultasiView :
-        route === 'layanan/rekomendasi' ? RekomendasiView :
-        AdminView
-      " @go="go" />
+      <component
+        :is="
+          route === 'home'
+            ? HomeView
+            : route === 'layanan'
+              ? LayananHub
+              : route === 'layanan/perpustakaan'
+                ? LibraryView
+                : route === 'layanan/konsultasi'
+                  ? KonsultasiView
+                  : route === 'layanan/rekomendasi'
+                    ? RekomendasiView
+                    : AdminView
+        "
+        @go="go"
+      />
     </main>
 
     <FooterBar />
